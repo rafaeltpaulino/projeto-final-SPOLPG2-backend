@@ -7,8 +7,6 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -36,6 +34,7 @@ public class UserModel {
     @Size(min = 5, max = 30, message = "A senha deve ter entre 5 e 30 caracteres")
     @Column(nullable = false)
     private String password;
+
     @Max(value = 50, message =  "O nome deve ter no máximo 50 caracteres.")
     @Column(name = "first_name", length = 50)
     private String firstName;
@@ -48,7 +47,7 @@ public class UserModel {
 
     @ManyToOne
     @JoinColumn(name = "county_id")
-    private CountriesModel country;
+    private CountryModel country;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
