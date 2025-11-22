@@ -1,5 +1,6 @@
 package br.com.ifsp.backend.security;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -8,7 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@Profile("dev-no-atuh")
+@Profile("dev-no-auth")
 public class DevSecurityConfig {
 
     @Bean

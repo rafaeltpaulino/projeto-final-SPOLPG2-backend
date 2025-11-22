@@ -1,45 +1,39 @@
 package br.com.ifsp.backend.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class UserModel {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O nome de usuário é obrigatório.")
-    @Size(min = 5, max = 25, message = "O nome de usuário deve ter entre 5 e 25 caracteres.")
     @Column(nullable = false, unique = true, length = 25)
     private String username;
 
-    @NotBlank(message = "O e-mail é obrigatório.")
-    @Email
-    @Size(min = 5, max = 50, message = "O email deve ter entre 5 e 50 caracteres.")
     @Column(nullable = false, unique = true, length = 50)
     private String email;
 
-    @NotBlank(message = "A senha é obrigatória")
-    @Size(min = 5, max = 30, message = "A senha deve ter entre 5 e 30 caracteres")
     @Column(nullable = false)
     private String password;
 
-    @Max(value = 50, message =  "O nome deve ter no máximo 50 caracteres.")
     @Column(name = "first_name", length = 50)
     private String firstName;
 
-    @Max(value = 50, message =  "O sobrenome deve ter no máximo 50 caracteres.")
     @Column(name = "last_name", length = 50)
     private String lastName;
 
@@ -47,11 +41,36 @@ public class UserModel {
 
     @ManyToOne
     @JoinColumn(name = "county_id")
-    private CountryModel country;
+    private Country country;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     private String bio;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
 }

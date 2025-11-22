@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "countries")
-public class CountryModel {
+public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
