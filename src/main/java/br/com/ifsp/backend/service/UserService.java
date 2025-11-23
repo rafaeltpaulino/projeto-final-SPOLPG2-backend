@@ -1,12 +1,15 @@
 package br.com.ifsp.backend.service;
 
 import br.com.ifsp.backend.dto.request.RegisterUserRequestDTO;
+import br.com.ifsp.backend.model.Role;
 import br.com.ifsp.backend.model.User;
 import br.com.ifsp.backend.repository.CountryRepository;
 import br.com.ifsp.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -29,6 +32,7 @@ public class UserService {
         newUser.setUsername(data.username());
         newUser.setEmail(data.email());
         newUser.setPassword(encodedPassword);
+        newUser.setRoles(Set.of(Role.ROLE_USER));
 
         userRepository.save(newUser);
 

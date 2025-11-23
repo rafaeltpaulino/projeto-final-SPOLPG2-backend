@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/admin")
-public class TestController {
+@RequestMapping("/user")
+public class UserController {
 
-    @GetMapping("/seguranca")
-    public String olaMundo() {
-            return "Testando segurança.";
+    @GetMapping("/teste")
+    public String testRouteUser() {
+        return "Teste de RBAC rota user";
     }
 }

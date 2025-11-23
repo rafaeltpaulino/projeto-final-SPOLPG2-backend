@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin")
-public class TestController {
+public class AdminController {
 
-    @GetMapping("/seguranca")
-    public String olaMundo() {
-            return "Testando segurança.";
+    @GetMapping("/teste")
+    public String testRouteAdmin() {
+        return "Teste de RBAC rota admin";
     }
 }
