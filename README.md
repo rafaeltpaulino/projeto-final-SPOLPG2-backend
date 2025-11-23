@@ -51,8 +51,8 @@ Trata-se de uma plataforma Full Stack para gerenciamento de coleções de discos
 
 1.  **Clone o repositório**
     ```bash
-    git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
-    cd seu-repositorio
+    git clone [https://github.com/rafaeltpaulino/projeto-final-SPOLPG2-backend](https://github.com/rafaeltpaulino/projeto-final-SPOLPG2-backend)
+    cd projeto-final-SPOLPG2-backend
     ```
 
 2.  **Configuração do Banco de Dados**
