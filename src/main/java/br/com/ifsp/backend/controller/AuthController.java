@@ -6,6 +6,7 @@ import br.com.ifsp.backend.dto.request.UserLoginRequestDTO;
 import br.com.ifsp.backend.dto.response.RegisterUserResponseDTO;
 import br.com.ifsp.backend.dto.response.UserLoginResponseDTO;
 import br.com.ifsp.backend.model.User;
+import br.com.ifsp.backend.service.AuthService;
 import br.com.ifsp.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,29 +27,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final UserService userService;
-    private final AuthenticationManager authenticationManager;
-    private final TokenConfig tokenConfig;
+    private final AuthService authService;
 
-    public AuthController(UserService userService, AuthenticationManager authenticationManager, TokenConfig tokenConfig) {
+    public AuthController(UserService userService, AuthService authService) {
         this.userService = userService;
-        this.authenticationManager = authenticationManager;
-        this.tokenConfig = tokenConfig;
+        this.authService = authService;
     }
 
     @Operation(description = "Endpoint para login")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Login realizado com sucesso."),
-            @ApiResponse(responseCode = "400", description = "Credenciais inválidas ou usuário não existe.")
+            @ApiResponse(responseCode = "401", description = "Credenciais inválidas ou usuário não existe.")
     })
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDTO> userLogin(@RequestBody @Valid UserLoginRequestDTO data){
-        var passwordAuthToken = new UsernamePasswordAuthenticationToken(data.email(), data.password());
-        Authentication authentication = authenticationManager.authenticate(passwordAuthToken);
 
-        User user = (User) authentication.getPrincipal();
-        String token = tokenConfig.generateJWT(user);
+        UserLoginResponseDTO loginResponseDTO = authService.userLogin(data);
 
-        return ResponseEntity.ok(new UserLoginResponseDTO(token));
+        return ResponseEntity.ok(loginResponseDTO);
     }
 
     @Operation(description = "Endpoint para criação de usuários.")

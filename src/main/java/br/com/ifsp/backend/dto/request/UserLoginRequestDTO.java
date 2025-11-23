@@ -5,13 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record UserLoginRequestDTO(
-        @NotBlank(message = "O nome de usuário é obrigatório.")
-        @Email
-        @Size(min = 5, max = 25, message = "O nome de usuário deve ter entre 5 e 25 caracteres.")
+        @NotBlank(message = "O email é obrigatório.")
+        @Email(message = "O email enviado é inválido.")
         String email,
 
         @NotBlank(message = "A senha é obrigatória")
-        @Size(min = 5, max = 30, message = "A senha deve ter entre 5 e 30 caracteres")
         String password
 ) {
 }
