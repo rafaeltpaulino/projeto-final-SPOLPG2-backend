@@ -77,6 +77,6 @@ Trata-se de uma plataforma Full Stack para gerenciamento de coleções de discos
 ## 🤝 Autores
 
 * **Rafael Teixeira Paulino** - [GitHub](https://github.com/rafaeltpaulino)
-
+* **Kethelyn Alves** - [GitHub](https://github.com/KethelynAlves)
 ---
 *Projeto desenvolvido para a disciplina de Linguagem de Programação 2 - IFSP.*
