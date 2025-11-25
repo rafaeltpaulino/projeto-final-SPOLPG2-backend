@@ -25,7 +25,7 @@ public class ReleaseBuilder {
         return this;
     }
 
-    public ReleaseBuilder ofMaster(MasterRelease master) {
+    public ReleaseBuilder ofMaster(Master master) {
         this.release.setMasterRelease(master);
         return this;
     }

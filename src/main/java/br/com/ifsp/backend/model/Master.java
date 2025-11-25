@@ -2,6 +2,7 @@ package br.com.ifsp.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,10 +11,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "master_releases")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MasterRelease {
+public class Master {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +31,7 @@ public class MasterRelease {
     private String coverImageUrl;
 
     @Column(name = "average_rating")
-    private Double averageRating;
+    private Double averageRating = 0.0;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -40,6 +42,8 @@ public class MasterRelease {
             joinColumns = @JoinColumn(name = "master_id"),
             inverseJoinColumns = @JoinColumn(name = "artist_id")
     )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Artist> artists = new HashSet<>();
 
     @ManyToMany
@@ -48,8 +52,12 @@ public class MasterRelease {
             joinColumns = @JoinColumn(name = "master_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Genre> genres = new HashSet<>();
 
-    @OneToMany(mappedBy = "masterRelease")
+    @OneToMany(mappedBy = "master")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Release> releases = new ArrayList<>();
 }

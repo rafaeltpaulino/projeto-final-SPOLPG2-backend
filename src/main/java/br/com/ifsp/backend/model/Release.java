@@ -33,7 +33,7 @@ public class Release {
 
     @ManyToOne
     @JoinColumn(name = "master_id", nullable = false)
-    private MasterRelease masterRelease;
+    private Master master;
 
     @ManyToOne
     @JoinColumn(name = "country_id")

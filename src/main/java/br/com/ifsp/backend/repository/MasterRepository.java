@@ -1,9 +1,9 @@
 package br.com.ifsp.backend.repository;
 
-import br.com.ifsp.backend.model.MasterRelease;
+import br.com.ifsp.backend.model.Master;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MasterReleaseRepository extends JpaRepository<MasterRelease, Long> {
+public interface MasterRepository extends JpaRepository<Master, Long> {
 }
