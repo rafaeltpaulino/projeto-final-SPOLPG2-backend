@@ -34,6 +34,5 @@ public class Artist {
 
     @ManyToOne
     @JoinColumn(name = "country_id")
-    @Column(nullable = false)
     private Country country;
 }

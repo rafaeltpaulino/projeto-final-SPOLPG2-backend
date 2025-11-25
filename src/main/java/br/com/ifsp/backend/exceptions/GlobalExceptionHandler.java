@@ -39,8 +39,19 @@ public class GlobalExceptionHandler {
         response.put("satus", HttpStatus.UNAUTHORIZED.value());
         response.put("timestamp", Instant.now());
         response.put("error", "Credenciais inválidas");
-        response.put("message", "Credenciais inválidas ou usuário não existe.");
+        response.put("message", e.getMessage());
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException e) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("satus", HttpStatus.NOT_FOUND.value());
+        response.put("timestamp", Instant.now());
+        response.put("error", "Not Found");
+        response.put("message", e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 }

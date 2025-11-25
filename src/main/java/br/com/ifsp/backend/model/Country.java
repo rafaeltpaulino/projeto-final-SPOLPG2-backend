@@ -16,8 +16,6 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Max(value = 100, message = "O nome do país pode ter no máximo 100 caracteres")
-    @NotBlank(message = "O nome do país é obrigatório.")
     @Column(nullable = false, unique = true, length = 100)
     String name;
 }

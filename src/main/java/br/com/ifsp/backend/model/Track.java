@@ -14,7 +14,9 @@ public class Track {
     private Long id;
 
     private String title;
-    private String position; // A1, B2
+
+    private String position;
+
     private Integer durationSeconds;
 
     @ManyToOne

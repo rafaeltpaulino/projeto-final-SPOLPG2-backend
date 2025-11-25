@@ -41,7 +41,6 @@ public class AuthController {
     })
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDTO> userLogin(@RequestBody @Valid UserLoginRequestDTO data){
-
         UserLoginResponseDTO loginResponseDTO = authService.userLogin(data);
 
         return ResponseEntity.ok(loginResponseDTO);
@@ -55,6 +54,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<RegisterUserResponseDTO> registerUser(@RequestBody @Valid RegisterUserRequestDTO data) {
         User newUser = userService.registerUser(data);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(new RegisterUserResponseDTO(newUser.getUsername(), newUser.getEmail()));
     }
 }

@@ -4,7 +4,6 @@ import br.com.ifsp.backend.model.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import lombok.*;
 
 
 public class ReleaseBuilder {
