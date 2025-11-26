@@ -1,6 +1,7 @@
 package br.com.ifsp.backend.builder;
 
 import br.com.ifsp.backend.model.*;
+import br.com.ifsp.backend.model.catalog.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 
 public class ReleaseBuilder {
 
-    private Release release;
+    private final Release release;
 
     private ReleaseBuilder() {
         this.release = new Release();
@@ -26,7 +27,7 @@ public class ReleaseBuilder {
     }
 
     public ReleaseBuilder ofMaster(Master master) {
-        this.release.setMasterRelease(master);
+        this.release.setMaster(master);
         return this;
     }
 
@@ -67,7 +68,7 @@ public class ReleaseBuilder {
 
     public Release build() {
         if (release.getTitle() == null) throw new IllegalStateException("Release deve ter um título");
-        if (release.getMasterRelease() == null) throw new IllegalStateException("Release deve pertencer a uma Master");
+        if (release.getMaster() == null) throw new IllegalStateException("Release deve pertencer a uma Master");
 
         return this.release;
     }

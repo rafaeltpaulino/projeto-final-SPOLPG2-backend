@@ -1,0 +1,15 @@
+package br.com.ifsp.backend.controller.user;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/admin")
+public class AdminController {
+
+    @GetMapping("/teste")
+    public String testRouteAdmin() {
+        return "Teste de RBAC rota admin";
+    }
+}

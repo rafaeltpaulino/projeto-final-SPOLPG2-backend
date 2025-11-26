@@ -1,6 +1,6 @@
 package br.com.ifsp.backend.config;
 
-import br.com.ifsp.backend.model.User;
+import br.com.ifsp.backend.model.user.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;

@@ -1,6 +1,6 @@
 package br.com.ifsp.backend.dto.response;
 
-import br.com.ifsp.backend.model.Artist;
+import br.com.ifsp.backend.model.catalog.Artist;
 
 import java.time.LocalDate;
 

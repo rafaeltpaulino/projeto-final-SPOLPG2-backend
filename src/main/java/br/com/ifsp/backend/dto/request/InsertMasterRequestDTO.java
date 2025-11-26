@@ -1,7 +1,7 @@
 package br.com.ifsp.backend.dto.request;
 
-import br.com.ifsp.backend.model.Artist;
-import br.com.ifsp.backend.model.Genre;
+import br.com.ifsp.backend.model.catalog.Artist;
+import br.com.ifsp.backend.model.catalog.Genre;
 
 import java.util.Set;
 
