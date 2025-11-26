@@ -9,6 +9,7 @@ import br.com.ifsp.backend.repository.CountryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ArtistService {
@@ -46,5 +47,9 @@ public class ArtistService {
     public Artist findById(Long id) {
         return artistRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Nenhum artista encontrado com o ID: " + id));
+    }
+
+    public List<Artist> findAllById(Set<Long> artistsId) {
+        return artistRepository.findAllById(artistsId);
     }
 }

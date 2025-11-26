@@ -7,6 +7,7 @@ import br.com.ifsp.backend.repository.catalog.GenreRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class GenreService {
@@ -32,5 +33,9 @@ public class GenreService {
     public Genre findById(Long id) {
         return genreRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Nenhum gênero musical encontrado com o ID: " + id));
+    }
+
+    public List<Genre> findAllById(Set<Long> genresId) {
+        return genreRepository.findAllById(genresId);
     }
 }
