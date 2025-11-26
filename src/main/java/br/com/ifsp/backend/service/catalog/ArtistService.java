@@ -1,6 +1,6 @@
 package br.com.ifsp.backend.service.catalog;
 
-import br.com.ifsp.backend.dto.request.InsertArtistRequestDTO;
+import br.com.ifsp.backend.dto.request.CreateArtistRequestDTO;
 import br.com.ifsp.backend.exceptions.ResourceNotFoundException;
 import br.com.ifsp.backend.model.catalog.Artist;
 import br.com.ifsp.backend.model.Country;
@@ -22,7 +22,7 @@ public class ArtistService {
         this.artistRepository = artistRepository;
     }
 
-    public Artist insertArtist(InsertArtistRequestDTO data) {
+    public Artist insertArtist(CreateArtistRequestDTO data) {
         Country country = countryRepository.findById(data.countryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Nenhum país encontrado com o ID: " + data.countryId()));
 

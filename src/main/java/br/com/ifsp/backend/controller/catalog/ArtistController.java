@@ -1,8 +1,8 @@
 package br.com.ifsp.backend.controller.catalog;
 
-import br.com.ifsp.backend.dto.request.InsertArtistRequestDTO;
+import br.com.ifsp.backend.dto.request.CreateArtistRequestDTO;
 import br.com.ifsp.backend.dto.response.ArtistResponseDTO;
-import br.com.ifsp.backend.dto.response.InsertArtistResponseDTO;
+import br.com.ifsp.backend.dto.response.CreateArtistResponseDTO;
 import br.com.ifsp.backend.model.catalog.Artist;
 import br.com.ifsp.backend.service.catalog.ArtistService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,9 +31,9 @@ public class ArtistController {
             @ApiResponse(responseCode = "400", description = "Informações enviadas inválidas ou faltantes.")
     })
     @PostMapping
-    public ResponseEntity<InsertArtistResponseDTO> create(@RequestBody @Valid InsertArtistRequestDTO data) {
+    public ResponseEntity<CreateArtistResponseDTO> create(@RequestBody @Valid CreateArtistRequestDTO data) {
         Artist artist = artistService.insertArtist(data);
-        var response = new InsertArtistResponseDTO(artist.getId(), artist.getName());
+        var response = new CreateArtistResponseDTO(artist.getId(), artist.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

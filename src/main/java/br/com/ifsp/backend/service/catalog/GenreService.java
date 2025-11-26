@@ -1,6 +1,6 @@
 package br.com.ifsp.backend.service.catalog;
 
-import br.com.ifsp.backend.dto.request.InsertGenreRequestDTO;
+import br.com.ifsp.backend.dto.request.CreateGenreRequestDTO;
 import br.com.ifsp.backend.exceptions.ResourceNotFoundException;
 import br.com.ifsp.backend.model.catalog.Genre;
 import br.com.ifsp.backend.repository.catalog.GenreRepository;
@@ -18,7 +18,7 @@ public class GenreService {
         this.genreRepository = genreRepository;
     }
 
-    public Genre insertGenre(InsertGenreRequestDTO data) {
+    public Genre insertGenre(CreateGenreRequestDTO data) {
         Genre newGenre = new Genre();
         newGenre.setName(data.name());
         genreRepository.save(newGenre);

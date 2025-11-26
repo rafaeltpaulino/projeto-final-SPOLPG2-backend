@@ -1,8 +1,8 @@
 package br.com.ifsp.backend.controller.catalog;
 
-import br.com.ifsp.backend.dto.request.InsertGenreRequestDTO;
+import br.com.ifsp.backend.dto.request.CreateGenreRequestDTO;
 import br.com.ifsp.backend.dto.response.GenreResponseDTO;
-import br.com.ifsp.backend.dto.response.InsertGenreResponseDTO;
+import br.com.ifsp.backend.dto.response.CreateGenreResponseDTO;
 import br.com.ifsp.backend.model.catalog.Genre;
 import br.com.ifsp.backend.service.catalog.GenreService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,9 +31,9 @@ public class GenreController {
             @ApiResponse(responseCode = "400", description = "Informações enviadas inválidas ou faltantes.")
     })
     @PostMapping
-    public ResponseEntity<InsertGenreResponseDTO> create(@RequestBody @Valid InsertGenreRequestDTO data) {
+    public ResponseEntity<CreateGenreResponseDTO> create(@RequestBody @Valid CreateGenreRequestDTO data) {
         Genre genre = genreService.insertGenre(data);
-        var response = new InsertGenreResponseDTO(genre.getId(), genre.getName());
+        var response = new CreateGenreResponseDTO(genre.getId(), genre.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
