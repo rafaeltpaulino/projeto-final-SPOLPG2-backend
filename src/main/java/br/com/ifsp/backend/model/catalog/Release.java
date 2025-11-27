@@ -1,6 +1,10 @@
 package br.com.ifsp.backend.model.catalog;
 
 import br.com.ifsp.backend.model.Country;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Release {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,6 +39,7 @@ public class Release {
 
     @ManyToOne
     @JoinColumn(name = "master_id", nullable = false)
+    @JsonBackReference
     private Master master;
 
     @ManyToOne
@@ -41,8 +47,10 @@ public class Release {
     private Country country;
 
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ReleaseLabel> labels = new ArrayList<>();
 
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Track> tracks = new ArrayList<>();
 }

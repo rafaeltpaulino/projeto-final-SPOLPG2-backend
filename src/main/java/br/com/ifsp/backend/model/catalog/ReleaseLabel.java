@@ -1,11 +1,13 @@
 package br.com.ifsp.backend.model.catalog;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Table(name = "releases_labels")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReleaseLabel {
@@ -16,6 +18,7 @@ public class ReleaseLabel {
     @ManyToOne
     @MapsId("releaseId")
     @JoinColumn(name = "release_id")
+    @JsonBackReference
     private Release release;
 
     @ManyToOne

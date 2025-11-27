@@ -57,6 +57,6 @@ public class MasterService {
 
     public Master findById(Long id) {
         return masterRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Nenhuma master encontrad com o ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Nenhuma master encontrado com o ID: " + id));
     }
 }

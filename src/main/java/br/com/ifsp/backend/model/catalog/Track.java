@@ -1,5 +1,6 @@
 package br.com.ifsp.backend.model.catalog;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,5 +23,6 @@ public class Track {
 
     @ManyToOne
     @JoinColumn(name = "release_id")
+    @JsonBackReference
     private Release release;
 }

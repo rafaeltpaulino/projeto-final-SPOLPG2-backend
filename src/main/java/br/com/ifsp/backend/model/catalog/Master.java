@@ -1,5 +1,9 @@
 package br.com.ifsp.backend.model.catalog;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.ser.impl.PropertyBasedObjectIdGenerator;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -58,5 +62,6 @@ public class Master {
     @OneToMany(mappedBy = "master")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @JsonManagedReference
     private List<Release> releases = new ArrayList<>();
 }
