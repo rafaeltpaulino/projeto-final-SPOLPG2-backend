@@ -1,8 +1,9 @@
 //Model do collection item
-package br.com.ifsp.backend.model;
+package br.com.ifsp.backend.model.social;
 
-import br.com.ifsp.backend.enums.ConditionEnum;
+import br.com.ifsp.backend.model.social.ConditionEnum;
 import br.com.ifsp.backend.model.catalog.Release; // Sua classe Release (Físico)
+import br.com.ifsp.backend.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;

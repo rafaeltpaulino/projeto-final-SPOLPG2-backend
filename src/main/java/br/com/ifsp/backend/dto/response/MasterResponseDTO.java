@@ -3,8 +3,10 @@ package br.com.ifsp.backend.dto.response;
 import br.com.ifsp.backend.model.catalog.Artist;
 import br.com.ifsp.backend.model.catalog.Genre;
 import br.com.ifsp.backend.model.catalog.Master;
+import br.com.ifsp.backend.model.catalog.Release;
 import lombok.Builder;
 
+import java.util.List;
 import java.util.Set;
 
 public record MasterResponseDTO(
@@ -15,7 +17,8 @@ public record MasterResponseDTO(
         Double averageRating,
         String description,
         Set<Artist> artists,
-        Set<Genre> genres
+        Set<Genre> genres,
+        List<Release> releases
 ) {
 
     public MasterResponseDTO(Master master) {
@@ -27,7 +30,8 @@ public record MasterResponseDTO(
                 master.getAverageRating(),
                 master.getDescription(),
                 master.getArtists(),
-                master.getGenres()
+                master.getGenres(),
+                master.getReleases()
         );
     }
 }

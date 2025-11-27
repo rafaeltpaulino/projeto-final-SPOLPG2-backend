@@ -1,10 +1,12 @@
 package br.com.ifsp.backend.service.user;
 
 import br.com.ifsp.backend.dto.request.RegisterUserRequestDTO;
+import br.com.ifsp.backend.exceptions.ResourceNotFoundException;
 import br.com.ifsp.backend.model.user.Role;
 import br.com.ifsp.backend.model.user.User;
 import br.com.ifsp.backend.repository.CountryRepository;
 import br.com.ifsp.backend.repository.user.UserRepository;
+import br.com.ifsp.backend.service.CountryService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +16,10 @@ import java.util.Set;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final CountryRepository countryRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, CountryRepository countryRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, CountryService countryService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.countryRepository = countryRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -36,5 +36,10 @@ public class UserService {
         userRepository.save(newUser);
 
         return newUser;
+    }
+
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Não foi encontado nenhum usuário com o ID: " + id));
     }
 }

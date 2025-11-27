@@ -1,3 +1,5 @@
+package br.com.ifsp.backend.model.social;
+
 //Enum para o collection item
 public enum ConditionEnum {
 MINT("Mint (M)", "Perfeito, como novo."),

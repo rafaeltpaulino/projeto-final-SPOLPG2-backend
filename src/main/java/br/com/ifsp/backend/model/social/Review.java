@@ -1,7 +1,8 @@
 //Model do review
-package br.com.ifsp.backend.model;
+package br.com.ifsp.backend.model.social;
 
 import br.com.ifsp.backend.model.catalog.Master;
+import br.com.ifsp.backend.model.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

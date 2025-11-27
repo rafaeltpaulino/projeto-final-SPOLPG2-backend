@@ -50,7 +50,7 @@ public class Release {
     @JsonManagedReference
     private List<ReleaseLabel> labels = new ArrayList<>();
 
-    @OneToMany(mappedBy = "release", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Track> tracks = new ArrayList<>();
 }
