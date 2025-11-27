@@ -17,8 +17,8 @@ import java.util.Map;
 
         private final CollectionItemRepository collectionItemRepository;
         private final Map<String, CollectionSortStrategy> sortStrategies;
-    private final UserService userService;
-    private final ReleaseService releaseService;
+        private final UserService userService;
+        private final ReleaseService releaseService;
 
     public CollectionItemService(CollectionItemRepository collectionItemRepository, Map<String, CollectionSortStrategy> sortStrategies, UserService userService, ReleaseService releaseService) {
             this.collectionItemRepository = collectionItemRepository;
@@ -44,9 +44,9 @@ import java.util.Map;
             return strategy.sort(items);
             }
 
-            public CollectionItem insertIntoCollection(InsertIntoCollectionRequestDTO data) {
+            public CollectionItem insertIntoCollection(InsertIntoCollectionRequestDTO data, Long userId) {
                 var newcollectionItem = new CollectionItem();
-                var user = userService.findById(data.userId());
+                var user = userService.findById(userId);
                 var release = releaseService.findById(data.releaseId());
 
                 newcollectionItem.setUser(user);
