@@ -1,9 +1,8 @@
 package br.com.ifsp.backend.controller.catalog;
 
-import br.com.ifsp.backend.dto.request.CreateLabelRequestDTO;
-import br.com.ifsp.backend.dto.response.CreateLabelResponseDTO;
-import br.com.ifsp.backend.dto.response.LabelResponseDTO;
-import br.com.ifsp.backend.model.catalog.Label;
+import br.com.ifsp.backend.dto.request.create.CreateLabelRequestDTO;
+import br.com.ifsp.backend.dto.response.create.CreateLabelResponseDTO;
+import br.com.ifsp.backend.dto.response.view.LabelResponseDTO;
 import br.com.ifsp.backend.service.catalog.LabelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

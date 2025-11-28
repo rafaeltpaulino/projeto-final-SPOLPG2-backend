@@ -4,6 +4,7 @@ package br.com.ifsp.backend.model.social;
 import br.com.ifsp.backend.model.social.ConditionEnum;
 import br.com.ifsp.backend.model.catalog.Release; // Sua classe Release (Físico)
 import br.com.ifsp.backend.model.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -36,6 +37,7 @@ private String privateNotes;
 
 @ManyToOne(fetch = FetchType.LAZY)
 @JoinColumn(name = "user_id", nullable = false)
+@JsonBackReference
 private User user;
 
 @ManyToOne(fetch = FetchType.LAZY)

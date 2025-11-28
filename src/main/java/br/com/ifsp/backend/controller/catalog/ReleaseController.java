@@ -1,8 +1,8 @@
 package br.com.ifsp.backend.controller.catalog;
 
-import br.com.ifsp.backend.dto.request.CreateReleaseRequestDTO;
-import br.com.ifsp.backend.dto.response.CreateReleaseResponseDTO;
-import br.com.ifsp.backend.dto.response.ReleaseResponseDTO;
+import br.com.ifsp.backend.dto.request.create.CreateReleaseRequestDTO;
+import br.com.ifsp.backend.dto.response.create.CreateReleaseResponseDTO;
+import br.com.ifsp.backend.dto.response.view.ReleaseResponseDTO;
 import br.com.ifsp.backend.service.catalog.ReleaseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

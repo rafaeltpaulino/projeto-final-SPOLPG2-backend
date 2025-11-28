@@ -1,9 +1,9 @@
 package br.com.ifsp.backend.controller.user;
 
-import br.com.ifsp.backend.dto.request.RegisterUserRequestDTO;
+import br.com.ifsp.backend.dto.request.create.RegisterUserRequestDTO;
 import br.com.ifsp.backend.dto.request.UserLoginRequestDTO;
-import br.com.ifsp.backend.dto.response.RegisterUserResponseDTO;
-import br.com.ifsp.backend.dto.response.UserLoginResponseDTO;
+import br.com.ifsp.backend.dto.response.create.RegisterUserResponseDTO;
+import br.com.ifsp.backend.dto.response.view.UserLoginResponseDTO;
 import br.com.ifsp.backend.model.user.User;
 import br.com.ifsp.backend.service.user.AuthService;
 import br.com.ifsp.backend.service.user.UserService;

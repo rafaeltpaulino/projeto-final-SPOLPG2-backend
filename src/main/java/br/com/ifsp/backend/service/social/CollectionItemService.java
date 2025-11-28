@@ -1,11 +1,10 @@
 package br.com.ifsp.backend.service.social;
 
-import br.com.ifsp.backend.dto.request.InsertIntoCollectionRequestDTO;
+import br.com.ifsp.backend.dto.request.put.InsertIntoCollectionRequestDTO;
 import br.com.ifsp.backend.model.social.CollectionItem;
 import br.com.ifsp.backend.repository.social.CollectionItemRepository;
 import br.com.ifsp.backend.service.catalog.ReleaseService;
 import br.com.ifsp.backend.service.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

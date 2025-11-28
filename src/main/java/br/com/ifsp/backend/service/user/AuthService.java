@@ -2,7 +2,7 @@ package br.com.ifsp.backend.service.user;
 
 import br.com.ifsp.backend.config.TokenConfig;
 import br.com.ifsp.backend.dto.request.UserLoginRequestDTO;
-import br.com.ifsp.backend.dto.response.UserLoginResponseDTO;
+import br.com.ifsp.backend.dto.response.view.UserLoginResponseDTO;
 import br.com.ifsp.backend.model.user.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

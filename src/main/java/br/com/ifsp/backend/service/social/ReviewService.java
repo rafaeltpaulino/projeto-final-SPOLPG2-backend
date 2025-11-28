@@ -1,6 +1,6 @@
 package br.com.ifsp.backend.service.social;
 
-import br.com.ifsp.backend.dto.request.CreateReviewRequestDTO;
+import br.com.ifsp.backend.dto.request.create.CreateReviewRequestDTO;
 import br.com.ifsp.backend.model.catalog.Master;
 import br.com.ifsp.backend.model.social.Review;
 import br.com.ifsp.backend.model.user.User;

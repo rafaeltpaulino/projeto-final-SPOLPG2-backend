@@ -1,11 +1,10 @@
 package br.com.ifsp.backend.controller.social;
 
 import br.com.ifsp.backend.config.JWTUserDTO;
-import br.com.ifsp.backend.dto.request.InsertIntoCollectionRequestDTO;
-import br.com.ifsp.backend.dto.response.CollectionItemResponseDTO;
-import br.com.ifsp.backend.dto.response.PutCollectionItemResponseDTO;
+import br.com.ifsp.backend.dto.request.put.InsertIntoCollectionRequestDTO;
+import br.com.ifsp.backend.dto.response.view.CollectionItemResponseDTO;
+import br.com.ifsp.backend.dto.response.put.PutCollectionItemResponseDTO;
 import br.com.ifsp.backend.model.social.CollectionItem;
-import br.com.ifsp.backend.model.user.User;
 import br.com.ifsp.backend.service.social.CollectionItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;

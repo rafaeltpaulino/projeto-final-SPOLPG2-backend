@@ -1,17 +1,14 @@
 package br.com.ifsp.backend.service.catalog;
 
 import br.com.ifsp.backend.builder.ReleaseBuilder;
-import br.com.ifsp.backend.dto.request.CreateReleaseRequestDTO;
-import br.com.ifsp.backend.dto.request.ReleaseLabelRequestDTO;
+import br.com.ifsp.backend.dto.request.create.CreateReleaseRequestDTO;
+import br.com.ifsp.backend.dto.request.create.ReleaseLabelRequestDTO;
 import br.com.ifsp.backend.exceptions.ResourceNotFoundException;
 import br.com.ifsp.backend.model.Country;
 import br.com.ifsp.backend.model.catalog.Label;
 import br.com.ifsp.backend.model.catalog.Master;
 import br.com.ifsp.backend.model.catalog.Release;
 import br.com.ifsp.backend.model.catalog.Track;
-import br.com.ifsp.backend.repository.CountryRepository;
-import br.com.ifsp.backend.repository.catalog.LabelRepository;
-import br.com.ifsp.backend.repository.catalog.MasterRepository;
 import br.com.ifsp.backend.repository.catalog.ReleaseRepository;
 import br.com.ifsp.backend.service.CountryService;
 import jakarta.transaction.Transactional;

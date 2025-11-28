@@ -1,5 +1,8 @@
 package br.com.ifsp.backend.model.user;
 
+import lombok.Getter;
+
+@Getter
 public enum Role {
 
     ROLE_USER,

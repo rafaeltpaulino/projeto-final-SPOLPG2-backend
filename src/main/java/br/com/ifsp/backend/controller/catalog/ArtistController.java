@@ -1,8 +1,8 @@
 package br.com.ifsp.backend.controller.catalog;
 
-import br.com.ifsp.backend.dto.request.CreateArtistRequestDTO;
-import br.com.ifsp.backend.dto.response.ArtistResponseDTO;
-import br.com.ifsp.backend.dto.response.CreateArtistResponseDTO;
+import br.com.ifsp.backend.dto.request.create.CreateArtistRequestDTO;
+import br.com.ifsp.backend.dto.response.view.ArtistResponseDTO;
+import br.com.ifsp.backend.dto.response.create.CreateArtistResponseDTO;
 import br.com.ifsp.backend.model.catalog.Artist;
 import br.com.ifsp.backend.service.catalog.ArtistService;
 import io.swagger.v3.oas.annotations.Operation;

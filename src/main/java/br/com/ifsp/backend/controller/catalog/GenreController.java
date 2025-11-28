@@ -1,8 +1,8 @@
 package br.com.ifsp.backend.controller.catalog;
 
-import br.com.ifsp.backend.dto.request.CreateGenreRequestDTO;
-import br.com.ifsp.backend.dto.response.GenreResponseDTO;
-import br.com.ifsp.backend.dto.response.CreateGenreResponseDTO;
+import br.com.ifsp.backend.dto.request.create.CreateGenreRequestDTO;
+import br.com.ifsp.backend.dto.response.view.GenreResponseDTO;
+import br.com.ifsp.backend.dto.response.create.CreateGenreResponseDTO;
 import br.com.ifsp.backend.model.catalog.Genre;
 import br.com.ifsp.backend.service.catalog.GenreService;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,6 +1,9 @@
 package br.com.ifsp.backend.model.user;
 
 import br.com.ifsp.backend.model.Country;
+import br.com.ifsp.backend.model.social.CollectionItem;
+import br.com.ifsp.backend.model.social.Review;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -44,7 +48,7 @@ public class User implements UserDetails {
     private LocalDate birthdate;
 
     @ManyToOne
-    @JoinColumn(name = "county_id")
+    @JoinColumn(name = "country_id")
     private Country country;
 
     @CreationTimestamp
@@ -52,6 +56,14 @@ public class User implements UserDetails {
     private LocalDateTime createdAt;
 
     private String bio;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonManagedReference
+    private List<CollectionItem> collectionItems;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonManagedReference
+    private List<Review> reviews;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))

@@ -1,8 +1,8 @@
 package br.com.ifsp.backend.controller.social;
 
 import br.com.ifsp.backend.config.JWTUserDTO;
-import br.com.ifsp.backend.dto.request.CreateReviewRequestDTO;
-import br.com.ifsp.backend.dto.response.ReviewResponseDTO;
+import br.com.ifsp.backend.dto.request.create.CreateReviewRequestDTO;
+import br.com.ifsp.backend.dto.response.view.ReviewResponseDTO;
 import br.com.ifsp.backend.model.social.Review;
 import br.com.ifsp.backend.model.user.User;
 import br.com.ifsp.backend.service.social.ReviewService;

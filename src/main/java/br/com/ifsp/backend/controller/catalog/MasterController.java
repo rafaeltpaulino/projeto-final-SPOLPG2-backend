@@ -1,8 +1,8 @@
 package br.com.ifsp.backend.controller.catalog;
 
-import br.com.ifsp.backend.dto.request.CreateMasterRequestDTO;
-import br.com.ifsp.backend.dto.response.CreateMasterResponseDTO;
-import br.com.ifsp.backend.dto.response.MasterResponseDTO;
+import br.com.ifsp.backend.dto.request.create.CreateMasterRequestDTO;
+import br.com.ifsp.backend.dto.response.create.CreateMasterResponseDTO;
+import br.com.ifsp.backend.dto.response.view.MasterResponseDTO;
 import br.com.ifsp.backend.service.catalog.MasterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

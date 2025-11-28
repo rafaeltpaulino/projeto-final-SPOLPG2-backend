@@ -1,6 +1,6 @@
 package br.com.ifsp.backend.service.catalog;
 
-import br.com.ifsp.backend.dto.request.CreateGenreRequestDTO;
+import br.com.ifsp.backend.dto.request.create.CreateGenreRequestDTO;
 import br.com.ifsp.backend.exceptions.ResourceNotFoundException;
 import br.com.ifsp.backend.model.catalog.Genre;
 import br.com.ifsp.backend.repository.catalog.GenreRepository;

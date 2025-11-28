@@ -1,6 +1,6 @@
 package br.com.ifsp.backend.service.catalog;
 
-import br.com.ifsp.backend.dto.request.CreateLabelRequestDTO;
+import br.com.ifsp.backend.dto.request.create.CreateLabelRequestDTO;
 import br.com.ifsp.backend.exceptions.ResourceNotFoundException;
 import br.com.ifsp.backend.model.catalog.Label;
 import br.com.ifsp.backend.repository.catalog.LabelRepository;
