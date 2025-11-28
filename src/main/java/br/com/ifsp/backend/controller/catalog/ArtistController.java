@@ -1,6 +1,7 @@
 package br.com.ifsp.backend.controller.catalog;
 
 import br.com.ifsp.backend.dto.request.create.CreateArtistRequestDTO;
+import br.com.ifsp.backend.dto.request.patch.PatchArtistRequestDTO;
 import br.com.ifsp.backend.dto.response.view.ArtistResponseDTO;
 import br.com.ifsp.backend.dto.response.create.CreateArtistResponseDTO;
 import br.com.ifsp.backend.model.catalog.Artist;
@@ -61,5 +62,29 @@ public class ArtistController {
         var response = new ArtistResponseDTO(artist);
 
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(description = "Atualizar dados de um artista")
+    @PatchMapping("/{id}")
+    public ResponseEntity<ArtistResponseDTO> update(
+            @PathVariable
+            Long id,
+            @RequestBody @Valid
+            PatchArtistRequestDTO data
+    ) {
+        Artist updatedArtist = artistService.update(id, data);
+        return ResponseEntity.ok(new ArtistResponseDTO(updatedArtist));
+    }
+
+    @Operation(description = "Excluir um artista (apenas se não tiver obras)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Artista excluído com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Não é possível excluir (possui vínculos)"),
+            @ApiResponse(responseCode = "404", description = "Artista não encontrado")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        artistService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

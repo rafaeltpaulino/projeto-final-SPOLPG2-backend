@@ -1,6 +1,7 @@
 package br.com.ifsp.backend.dto.request.create;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -10,10 +11,10 @@ public record CreateArtistRequestDTO(
         @NotBlank(message = "A descrição é obrigatória.")
         String description,
         String imageUrl,
-        @NotBlank(message = "A data de inicio das atividades é obrigatória.")
+        @NotNull(message = "A data de inicio das atividades é obrigatória.")
         LocalDate startDate,
         LocalDate endDate,
-        @NotBlank(message = "O país é obrigatório.")
+        @NotNull(message = "O país é obrigatório.")
         Long countryId
 ) {
 }
