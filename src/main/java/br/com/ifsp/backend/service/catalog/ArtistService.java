@@ -13,6 +13,8 @@ import br.com.ifsp.backend.repository.CountryRepository;
 import br.com.ifsp.backend.service.CountryService;
 import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,9 +53,10 @@ public class ArtistService {
 
         // 1. Dados Específicos
         group.setFormationDate(data.formationDate());
+        group.setEndDate(data.endDate());
 
         // 2. Dados Comuns
-        fillCommonData(group, data.name(), data.description(), null, data.countryId());
+        fillCommonData(group, data.name(), data.description(), data.imageUrl(), data.countryId());
 
         // 3. Salva a banda primeiro (para gerar o ID e poder vincular membros)
         group = artistRepository.save(group);
@@ -114,32 +117,32 @@ public class ArtistService {
         return artistRepository.findAll();
     }
 
+    // 1. Buscar por ID (Usado na página de detalhes)
+    @Transactional() // readOnly melhora performance no banco
     public Artist findById(Long id) {
-        return artistRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Nenhum artista encontrado com o ID: " + id));
+        Artist artist = artistRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Artista não encontrado: " + id));
+
+        // "Cutuca" a lista para carregar os membros enquanto a transação está aberta
+        if (artist instanceof GroupArtist group) {
+            group.getMembers().size();
+        }
+
+        return artist;
+    }
+
+    // 2. Listar Todos (Com paginação e filtro opcional por nome)
+    @Transactional()
+    public Page<Artist> findAll(Pageable pageable, String name) {
+        if (name != null && !name.isBlank()) {
+            return artistRepository.findByNameContainingIgnoreCase(name, pageable);
+        }
+        return artistRepository.findAll(pageable);
     }
 
     public List<Artist> findAllById(Set<Long> artistsId) {
         return artistRepository.findAllById(artistsId);
     }
-
-//    @Transactional
-//    public Artist update(Long id, PatchArtistRequestDTO data) {
-//        Artist artist = findById(id);
-//
-//        if (data.name() != null) artist.setName(data.name());
-//        if (data.description() != null) artist.setDescription(data.description());
-//        if (data.imageUrl() != null) artist.setImageUrl(data.imageUrl());
-//        if (data.startDate() != null) artist.setStartDate(data.startDate());
-//        if (data.endDate() != null) artist.setEndDate(data.endDate());
-//        if (data.countryId() != null) {
-//            Country country = countryService.findById(data.countryId());
-//            artist.setCountry(country);
-//        }
-//        artistRepository.save(artist);
-//
-//        return artist;
-//    }
 
     @Transactional
     public void delete(Long id) {

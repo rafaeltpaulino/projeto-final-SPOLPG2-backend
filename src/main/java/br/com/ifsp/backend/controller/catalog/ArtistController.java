@@ -11,6 +11,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,42 +42,27 @@ public class ArtistController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new ArtistResponseDTO(artist));
     }
 
-    @Operation(description = "Lista todos os artistas.")
-    @ApiResponse(responseCode = "200", description = "Lista de artistas retornada")
+    @Operation(description = "Listar artistas paginados (com filtro opcional por nome)")
     @GetMapping
-    public ResponseEntity<List<ArtistResponseDTO>> listAll() {
-        var artists = artistService.listAll();
-        List<ArtistResponseDTO> responseDTOS = artists.stream()
-                .map(ArtistResponseDTO::new)
-                .toList();
+    public ResponseEntity<Page<ArtistResponseDTO>> listAll(
+            @RequestParam(required = false) String name, // ?name=Pink
+            @ParameterObject Pageable pageable // ?page=0&size=10&sort=name,asc
+    ) {
+        Page<Artist> page = artistService.findAll(pageable, name);
 
-        return ResponseEntity.ok(responseDTOS);
+        // Converte a Página de Entidades para Página de DTOs
+        Page<ArtistResponseDTO> dtoPage = page.map(ArtistResponseDTO::new);
+
+        return ResponseEntity.ok(dtoPage);
     }
 
-    @Operation(description = "Busca artista por ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Artista encontrado."),
-            @ApiResponse(responseCode = "404", description = "Artista não encontrado.")
-    })
+    @Operation(description = "Buscar artista por ID (Detalhes completos)")
     @GetMapping("/{id}")
     public ResponseEntity<ArtistResponseDTO> findById(@PathVariable Long id) {
         Artist artist = artistService.findById(id);
-        var response = new ArtistResponseDTO(artist);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(new ArtistResponseDTO(artist));
     }
 
-//    @Operation(description = "Atualizar dados de um artista")
-//    @PatchMapping("/{id}")
-//    public ResponseEntity<ArtistResponseDTO> update(
-//            @PathVariable
-//            Long id,
-//            @RequestBody @Valid
-//            PatchArtistRequestDTO data
-//    ) {
-//        Artist updatedArtist = artistService.update(id, data);
-//        return ResponseEntity.ok(new ArtistResponseDTO(updatedArtist));
-//    }
 
     @Operation(description = "Excluir um artista (apenas se não tiver obras)")
     @ApiResponses(value = {
