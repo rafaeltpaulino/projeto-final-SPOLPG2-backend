@@ -1,12 +1,15 @@
 package br.com.ifsp.backend.service.catalog;
 
 import br.com.ifsp.backend.dto.request.create.CreateMasterRequestDTO;
+import br.com.ifsp.backend.dto.request.patch.UpdateMasterRequestDTO;
 import br.com.ifsp.backend.exceptions.ResourceNotFoundException;
 import br.com.ifsp.backend.model.catalog.Artist;
 import br.com.ifsp.backend.model.catalog.Genre;
 import br.com.ifsp.backend.model.catalog.Master;
 import br.com.ifsp.backend.repository.catalog.MasterRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
@@ -57,5 +60,50 @@ public class MasterService {
     public Master findById(Long id) {
         return masterRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Nenhuma master encontrado com o ID: " + id));
+    }
+
+    public Page<Master> findAll(String title, Pageable pageable){
+        if (title != null && !title.isBlank()) {
+            return masterRepository.findByTitleContainingIgnoreCase(title, pageable);
+        }
+        return masterRepository.findAll(pageable);
+    }
+
+    @Transactional
+    public Master update(Long id, UpdateMasterRequestDTO data) {
+        Master master = findById(id); // Usa seu método que já valida existência
+
+        // 1. Atualiza campos simples (se não forem nulos)
+        if (data.title() != null) master.setTitle(data.title());
+        if (data.releaseYear() != null) master.setReleaseYear(data.releaseYear());
+        if (data.coverImageUrl() != null) master.setCoverImageUrl(data.coverImageUrl());
+        if (data.description() != null) master.setDescription(data.description());
+
+        // 2. Atualiza Artistas (Se a lista foi enviada)
+        if (data.artistsId() != null) {
+            // Busca os novos artistas
+            Set<Artist> newArtists = new LinkedHashSet<>(artistService.findAllById(data.artistsId()));
+
+            // Validação de integridade (opcional, mas recomendada)
+            if (newArtists.size() != data.artistsId().size()) {
+                throw new ResourceNotFoundException("Um ou mais IDs de artistas não foram encontrados.");
+            }
+
+            // Substitui a lista antiga pela nova
+            master.setArtists(newArtists);
+        }
+
+        // 3. Atualiza Gêneros (Se a lista foi enviada)
+        if (data.genresId() != null) {
+            Set<Genre> newGenres = new LinkedHashSet<>(genreService.findAllById(data.genresId()));
+
+            if (newGenres.size() != data.genresId().size()) {
+                throw new ResourceNotFoundException("Um ou mais IDs de gêneros não foram encontrados.");
+            }
+
+            master.setGenres(newGenres);
+        }
+
+        return masterRepository.save(master);
     }
 }

@@ -4,6 +4,7 @@ import br.com.ifsp.backend.model.catalog.Artist;
 import br.com.ifsp.backend.model.catalog.Genre;
 import br.com.ifsp.backend.model.catalog.Master;
 
+import java.util.List;
 import java.util.Set;
 
 public record SimpleMasterDTO(
@@ -12,8 +13,8 @@ public record SimpleMasterDTO(
         Integer releaseYear,
         String coverImageUrl,
         Double averageRating,
-        Set<Artist> artists,
-        Set<Genre> genres
+        List<String> artists,
+        List<String> genres
 ) {
     public SimpleMasterDTO(Master master) {
         this(
@@ -22,8 +23,8 @@ public record SimpleMasterDTO(
                 master.getReleaseYear(),
                 master.getCoverImageUrl(),
                 master.getAverageRating(),
-                master.getArtists(),
-                master.getGenres()
+                master.getArtists().stream().map(Artist::getName).toList(),
+                master.getGenres().stream().map(Genre::getName).toList()
         );
     }
 }

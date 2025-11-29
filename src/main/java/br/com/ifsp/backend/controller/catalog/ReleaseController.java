@@ -2,12 +2,16 @@ package br.com.ifsp.backend.controller.catalog;
 
 import br.com.ifsp.backend.dto.request.create.CreateReleaseRequestDTO;
 import br.com.ifsp.backend.dto.response.create.CreateReleaseResponseDTO;
+import br.com.ifsp.backend.dto.response.view.MasterResponseDTO;
 import br.com.ifsp.backend.dto.response.view.ReleaseResponseDTO;
 import br.com.ifsp.backend.service.catalog.ReleaseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,13 +44,14 @@ public class ReleaseController {
     @Operation(description = "Lista todos os releases.")
     @ApiResponse(responseCode = "200", description = "Lista de releases retornada")
     @GetMapping
-    public ResponseEntity<List<ReleaseResponseDTO>> listAll() {
-        var releases = releaseService.listAll();
-        List<ReleaseResponseDTO> responseDTOS = releases.stream()
-                .map(ReleaseResponseDTO::new)
-                .toList();
+    public ResponseEntity<Page<ReleaseResponseDTO>> listAll(
+            @RequestParam(required = false) String title,
+            @ParameterObject Pageable pageable
+    ) {
+        var page = releaseService.findAll(title, pageable);
+        Page<ReleaseResponseDTO> dtoPage = page.map(ReleaseResponseDTO::new);
 
-        return ResponseEntity.ok(responseDTOS);
+        return ResponseEntity.ok(dtoPage);
     }
 
     @Operation(description = "Busca releases por ID")

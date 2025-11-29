@@ -12,6 +12,8 @@ import br.com.ifsp.backend.model.catalog.Track;
 import br.com.ifsp.backend.repository.catalog.ReleaseRepository;
 import br.com.ifsp.backend.service.CountryService;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -71,6 +73,13 @@ public class ReleaseService {
 
     public List<Release> listAll() {
         return releaseRepository.findAll();
+    }
+
+    public Page<Release> findAll(String title, Pageable pageable) {
+        if (title != null && !title.isBlank()) {
+            return releaseRepository.findByTitleContainingIgnoreCase(title, pageable);
+        }
+        return releaseRepository.findAll(pageable);
     }
 
     public Release findById(Long id) {

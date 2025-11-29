@@ -16,9 +16,9 @@ public record ReleaseResponseDTO(
         String barcode,
         boolean main,
         SimpleMasterDTO master,
-        Country country,
-        List<ReleaseLabel> labels,
-        List<Track> tracks
+        String country,
+        List<ReleaseLabelDTO> labels,
+        List<SimpleTrackDTO> tracks
 ) {
     public ReleaseResponseDTO(Release release) {
         this(
@@ -29,9 +29,9 @@ public record ReleaseResponseDTO(
                 release.getBarcode(),
                 release.isMain(),
                 new SimpleMasterDTO(release.getMaster()),
-                release.getCountry(),
-                release.getLabels(),
-                release.getTracks()
+                release.getCountry().getName(),
+                release.getLabels().stream().map(ReleaseLabelDTO::new).toList(),
+                release.getTracks().stream().map(SimpleTrackDTO::new).toList()
         );
     }
 }

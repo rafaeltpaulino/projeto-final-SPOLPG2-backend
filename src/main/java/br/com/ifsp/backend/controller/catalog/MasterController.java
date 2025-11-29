@@ -1,13 +1,18 @@
 package br.com.ifsp.backend.controller.catalog;
 
 import br.com.ifsp.backend.dto.request.create.CreateMasterRequestDTO;
+import br.com.ifsp.backend.dto.request.patch.UpdateMasterRequestDTO;
 import br.com.ifsp.backend.dto.response.create.CreateMasterResponseDTO;
 import br.com.ifsp.backend.dto.response.view.MasterResponseDTO;
+import br.com.ifsp.backend.model.catalog.Master;
 import br.com.ifsp.backend.service.catalog.MasterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,13 +45,14 @@ public class MasterController {
     @Operation(description = "Lista todas as masters.")
     @ApiResponse(responseCode = "200", description = "Lista de masters retornada")
     @GetMapping
-    public ResponseEntity<List<MasterResponseDTO>> listAll() {
-        var masters = masterService.listAll();
-        var responseDTOS = masters.stream()
-                .map(MasterResponseDTO::new)
-                .toList();
+    public ResponseEntity<Page<MasterResponseDTO>> listAll(
+            @RequestParam(required = false) String title,
+            @ParameterObject Pageable pageable
+    ) {
+        var page = masterService.findAll(title, pageable);
+        Page<MasterResponseDTO> dtoPage = page.map(MasterResponseDTO::new);
 
-        return ResponseEntity.ok(responseDTOS);
+        return ResponseEntity.ok(dtoPage);
     }
 
     @Operation(description = "Busca masters por ID")
@@ -60,5 +66,15 @@ public class MasterController {
         var response = new MasterResponseDTO(master);
 
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(description = "Atualizar uma Obra (Master Release)")
+    @PatchMapping("/{id}")
+    public ResponseEntity<MasterResponseDTO> update(
+            @PathVariable Long id,
+            @RequestBody @Valid UpdateMasterRequestDTO data
+    ) {
+        Master updatedMaster = masterService.update(id, data);
+        return ResponseEntity.ok(new MasterResponseDTO(updatedMaster));
     }
 }
