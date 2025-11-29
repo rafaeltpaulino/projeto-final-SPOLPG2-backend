@@ -78,4 +78,17 @@ public class ReleaseController {
         Release updatedRelease = releaseService.update(id, data);
         return ResponseEntity.ok(new ReleaseResponseDTO(updatedRelease));
     }
+
+    @Operation(description = "Excluir uma Edição (Apenas se ninguém a tiver na coleção)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Release excluído com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Não é possível excluir (está em uso)"),
+            @ApiResponse(responseCode = "404", description = "Release não encontrado")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+
+        releaseService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

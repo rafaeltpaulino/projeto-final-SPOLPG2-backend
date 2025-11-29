@@ -3,6 +3,7 @@ package br.com.ifsp.backend.controller.catalog;
 import br.com.ifsp.backend.dto.request.create.CreateGroupRequestDTO;
 import br.com.ifsp.backend.dto.request.create.CreatePersonRequestDTO;
 import br.com.ifsp.backend.dto.request.patch.PatchArtistRequestDTO;
+import br.com.ifsp.backend.dto.request.patch.UpdateArtistRequestDTO;
 import br.com.ifsp.backend.dto.response.view.ArtistResponseDTO;
 import br.com.ifsp.backend.dto.response.create.CreateArtistResponseDTO;
 import br.com.ifsp.backend.model.catalog.Artist;
@@ -74,5 +75,15 @@ public class ArtistController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         artistService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(description = "Atualizar dados de um artista (Pessoa ou Banda)")
+    @PutMapping("/{id}")
+    public ResponseEntity<ArtistResponseDTO> update(
+            @PathVariable Long id,
+            @RequestBody @Valid UpdateArtistRequestDTO data
+    ) {
+        Artist updatedArtist = artistService.update(id, data);
+        return ResponseEntity.ok(new ArtistResponseDTO(updatedArtist));
     }
 }

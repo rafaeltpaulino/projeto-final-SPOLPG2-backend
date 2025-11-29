@@ -5,6 +5,7 @@ import br.com.ifsp.backend.dto.request.patch.UpdateLabelRequestDTO;
 import br.com.ifsp.backend.exceptions.ResourceNotFoundException;
 import br.com.ifsp.backend.model.catalog.Label;
 import br.com.ifsp.backend.repository.catalog.LabelRepository;
+import br.com.ifsp.backend.repository.catalog.ReleaseLabelRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,9 +17,11 @@ import java.util.List;
 public class LabelService {
 
     private final LabelRepository labelRepository;
+    private final ReleaseLabelRepository releaseLabelRepository;
 
-    public LabelService(LabelRepository labelRepository) {
+    public LabelService(LabelRepository labelRepository, ReleaseLabelRepository releaseLabelRepository) {
         this.labelRepository = labelRepository;
+        this.releaseLabelRepository = releaseLabelRepository;
     }
 
     public Label createLabel(CreateLabelRequestDTO data) {
@@ -77,5 +80,19 @@ public class LabelService {
             return labelRepository.findByNameContainingIgnoreCase(name, pageable);
         }
         return labelRepository.findAll(pageable);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        // 1. Busca a Label (para garantir que existe)
+        Label label = findById(id);
+
+        // 2. REGRA DE INTEGRIDADE: Existem discos lançados por ela?
+        if (releaseLabelRepository.existsByLabelId(id)) {
+            throw new IllegalArgumentException("Não é possível excluir esta Gravadora pois ela possui Discos (Releases) vinculados.");
+        }
+
+        // 3. Deleta
+        labelRepository.delete(label);
     }
 }

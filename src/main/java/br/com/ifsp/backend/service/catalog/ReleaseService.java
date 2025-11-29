@@ -8,6 +8,7 @@ import br.com.ifsp.backend.exceptions.ResourceNotFoundException;
 import br.com.ifsp.backend.model.Country;
 import br.com.ifsp.backend.model.catalog.*;
 import br.com.ifsp.backend.repository.catalog.ReleaseRepository;
+import br.com.ifsp.backend.repository.social.CollectionItemRepository;
 import br.com.ifsp.backend.service.CountryService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -23,12 +24,14 @@ public class ReleaseService {
     private final MasterService masterService;
     private final LabelService labelService;
     private final CountryService countryService;
+    private final CollectionItemRepository collectionItemRepository;
 
-    public ReleaseService(ReleaseRepository releaseRepository, MasterService masterService, LabelService labelService, CountryService countryService) {
+    public ReleaseService(ReleaseRepository releaseRepository, MasterService masterService, LabelService labelService, CountryService countryService, CollectionItemRepository collectionItemRepository) {
         this.releaseRepository = releaseRepository;
         this.masterService = masterService;
         this.labelService = labelService;
         this.countryService = countryService;
+        this.collectionItemRepository = collectionItemRepository;
     }
 
     @Transactional
@@ -146,5 +149,20 @@ public class ReleaseService {
         }
 
         return releaseRepository.save(release);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        // 1. Busca o Release (para garantir que existe)
+        Release release = releaseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Release não encontrado com ID: " + id));
+
+        // 2. REGRA DE INTEGRIDADE: Alguém tem esse disco na coleção?
+        if (collectionItemRepository.existsByReleaseId(id)) {
+            throw new IllegalArgumentException("Não é possível excluir este Release pois ele está presente na coleção de um ou mais usuários.");
+        }
+
+        // 3. Deleta (O CascadeType.ALL na classe Release vai apagar as Tracks e Labels automaticamente)
+        releaseRepository.delete(release);
     }
 }

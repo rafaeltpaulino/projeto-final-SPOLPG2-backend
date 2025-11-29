@@ -5,6 +5,7 @@ import br.com.ifsp.backend.dto.request.create.CreateGroupRequestDTO;
 import br.com.ifsp.backend.dto.request.create.CreatePersonRequestDTO;
 import br.com.ifsp.backend.dto.request.create.MemberBindingDTO;
 import br.com.ifsp.backend.dto.request.patch.PatchArtistRequestDTO;
+import br.com.ifsp.backend.dto.request.patch.UpdateArtistRequestDTO;
 import br.com.ifsp.backend.exceptions.ResourceNotFoundException;
 import br.com.ifsp.backend.model.catalog.*;
 import br.com.ifsp.backend.model.Country;
@@ -156,5 +157,37 @@ public class ArtistService {
         } catch (DataIntegrityViolationException e) {
             throw new IllegalArgumentException("Não é possível excluir este artista pois ele possui Obras (Masters) associadas.");
         }
+    }
+
+    @Transactional
+    public Artist update(Long id, UpdateArtistRequestDTO data) {
+        // 1. Busca o artista (Seja Banda ou Pessoa)
+        Artist artist = findById(id); // Já lança exceção se não existir
+
+        // 2. Atualiza Dados Comuns (Se não forem nulos)
+        if (data.name() != null) artist.setName(data.name());
+        if (data.description() != null) artist.setDescription(data.description());
+        if (data.imageUrl() != null) artist.setImageUrl(data.imageUrl());
+
+        if (data.countryId() != null) {
+            Country country = countryService.findById(data.countryId());
+            artist.setCountry(country);
+        }
+
+        // 3. Atualiza Dados Específicos de PESSOA
+        if (artist instanceof PersonArtist person) {
+            if (data.birthDate() != null) person.setBirthDate(data.birthDate());
+            if (data.deathDate() != null) person.setDeathDate(data.deathDate());
+        }
+
+        // 4. Atualiza Dados Específicos de BANDA
+        else if (artist instanceof GroupArtist group) {
+            if (data.formationDate() != null) group.setFormationDate(data.formationDate());
+            if (data.endDate() != null) group.setEndDate(data.endDate());
+            // Nota: Não atualizamos membros aqui para não complicar.
+            // Para gerir membros, idealmente usamos endpoints específicos (add/remove member).
+        }
+
+        return artistRepository.save(artist);
     }
 }

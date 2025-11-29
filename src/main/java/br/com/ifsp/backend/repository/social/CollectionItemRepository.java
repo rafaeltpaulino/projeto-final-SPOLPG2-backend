@@ -20,4 +20,6 @@ public interface CollectionItemRepository extends JpaRepository<CollectionItem, 
             "WHERE ci.user.id = :userId",
             countQuery = "SELECT count(ci) FROM CollectionItem ci WHERE ci.user.id = :userId")
     Page<CollectionItem> findAllByUserIdWithRelations(@Param("userId") Long userId, Pageable pageable);
+
+    boolean existsByReleaseId(Long releaseId);
 }

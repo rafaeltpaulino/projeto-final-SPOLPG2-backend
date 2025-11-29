@@ -77,4 +77,19 @@ public class MasterController {
         Master updatedMaster = masterService.update(id, data);
         return ResponseEntity.ok(new MasterResponseDTO(updatedMaster));
     }
+
+    @Operation(description = "Excluir uma Obra (Apenas se não tiver discos ou reviews)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Obra excluída com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Não é possível excluir (possui vínculos)"),
+            @ApiResponse(responseCode = "404", description = "Obra não encontrada")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        // Se quiser restringir apenas para ADMIN:
+        // if (!user.isAdmin()) return Forbidden...
+
+        masterService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

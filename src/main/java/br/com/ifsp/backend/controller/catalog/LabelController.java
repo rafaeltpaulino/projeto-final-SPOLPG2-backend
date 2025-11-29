@@ -76,4 +76,18 @@ public class LabelController {
         Label updatedLabel = labelService.update(id, data);
         return ResponseEntity.ok(new LabelResponseDTO(updatedLabel));
     }
+
+    @Operation(description = "Excluir uma Gravadora (Apenas se não tiver discos)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Gravadora excluída com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Não é possível excluir (possui vínculos)"),
+            @ApiResponse(responseCode = "404", description = "Gravadora não encontrada")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        // Se quiser restringir a ADMIN, faça a verificação aqui
+
+        labelService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
