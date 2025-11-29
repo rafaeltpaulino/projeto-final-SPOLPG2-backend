@@ -3,12 +3,10 @@ package br.com.ifsp.backend.service.catalog;
 import br.com.ifsp.backend.builder.ReleaseBuilder;
 import br.com.ifsp.backend.dto.request.create.CreateReleaseRequestDTO;
 import br.com.ifsp.backend.dto.request.create.ReleaseLabelRequestDTO;
+import br.com.ifsp.backend.dto.request.patch.UpdateReleaseRequestDTO;
 import br.com.ifsp.backend.exceptions.ResourceNotFoundException;
 import br.com.ifsp.backend.model.Country;
-import br.com.ifsp.backend.model.catalog.Label;
-import br.com.ifsp.backend.model.catalog.Master;
-import br.com.ifsp.backend.model.catalog.Release;
-import br.com.ifsp.backend.model.catalog.Track;
+import br.com.ifsp.backend.model.catalog.*;
 import br.com.ifsp.backend.repository.catalog.ReleaseRepository;
 import br.com.ifsp.backend.service.CountryService;
 import jakarta.transaction.Transactional;
@@ -85,5 +83,68 @@ public class ReleaseService {
     public Release findById(Long id) {
         return releaseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Nenhum release foi encontado com o ID: " + id));
+    }
+
+    @Transactional
+    public Release update(Long id, UpdateReleaseRequestDTO data) {
+        Release release = findById(id);
+
+        // 1. Atualizar Campos Simples (se não forem nulos)
+        if (data.title() != null) release.setTitle(data.title());
+        if (data.releaseDate() != null) release.setReleaseDate(data.releaseDate());
+        if (data.format() != null) release.setFormat(data.format());
+        if (data.barcode() != null) release.setBarcode(data.barcode());
+        if (data.isMain() != null) release.setMain(data.isMain());
+
+        // 2. Atualizar Associações Simples (Master e Country)
+        if (data.masterId() != null) {
+            Master master = masterService.findById(data.masterId());
+            release.setMaster(master);
+        }
+        if (data.countryId() != null) {
+            Country country = countryService.findById(data.countryId());
+            release.setCountry(country);
+        }
+
+        // 3. Atualizar Labels (Estratégia: Limpar e Reconstruir)
+        if (data.labels() != null) {
+            // Remove as antigas do banco graças ao orphanRemoval=true
+            release.getLabels().clear();
+
+            for (var labelDto : data.labels()) {
+                Label label = labelService.findById(labelDto.labelId());
+
+                ReleaseLabel releaseLabel = new ReleaseLabel();
+                releaseLabel.setRelease(release);
+                releaseLabel.setLabel(label);
+                releaseLabel.setCatalogNumber(labelDto.catalogNumber());
+                releaseLabel.setRole(labelDto.role());
+
+                // Configurar chave composta
+                ReleaseLabelId linkId = new ReleaseLabelId();
+                linkId.setReleaseId(release.getId());
+                linkId.setLabelId(label.getId());
+                releaseLabel.setId(linkId);
+
+                release.getLabels().add(releaseLabel);
+            }
+        }
+
+        // 4. Atualizar Faixas (Estratégia: Limpar e Reconstruir)
+        if (data.tracks() != null) {
+            release.getTracks().clear(); // Apaga as faixas antigas
+
+            for (var trackDto : data.tracks()) {
+                Track track = new Track();
+                track.setTitle(trackDto.title());
+                track.setPosition(trackDto.position());
+                track.setDurationSeconds(trackDto.durationSeconds());
+                track.setRelease(release); // Vincula ao pai
+
+                release.getTracks().add(track);
+            }
+        }
+
+        return releaseRepository.save(release);
     }
 }

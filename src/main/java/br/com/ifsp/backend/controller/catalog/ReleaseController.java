@@ -1,9 +1,11 @@
 package br.com.ifsp.backend.controller.catalog;
 
 import br.com.ifsp.backend.dto.request.create.CreateReleaseRequestDTO;
+import br.com.ifsp.backend.dto.request.patch.UpdateReleaseRequestDTO;
 import br.com.ifsp.backend.dto.response.create.CreateReleaseResponseDTO;
 import br.com.ifsp.backend.dto.response.view.MasterResponseDTO;
 import br.com.ifsp.backend.dto.response.view.ReleaseResponseDTO;
+import br.com.ifsp.backend.model.catalog.Release;
 import br.com.ifsp.backend.service.catalog.ReleaseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -65,5 +67,15 @@ public class ReleaseController {
         var response = new ReleaseResponseDTO(release);
 
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(description = "Atualizar uma Edição (Release)")
+    @PatchMapping("/{id}")
+    public ResponseEntity<ReleaseResponseDTO> update(
+            @PathVariable Long id,
+            @RequestBody @Valid UpdateReleaseRequestDTO data
+    ) {
+        Release updatedRelease = releaseService.update(id, data);
+        return ResponseEntity.ok(new ReleaseResponseDTO(updatedRelease));
     }
 }
