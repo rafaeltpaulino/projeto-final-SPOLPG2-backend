@@ -1,6 +1,7 @@
 package br.com.ifsp.backend.controller.catalog;
 
-import br.com.ifsp.backend.dto.request.create.CreateArtistRequestDTO;
+import br.com.ifsp.backend.dto.request.create.CreateGroupRequestDTO;
+import br.com.ifsp.backend.dto.request.create.CreatePersonRequestDTO;
 import br.com.ifsp.backend.dto.request.patch.PatchArtistRequestDTO;
 import br.com.ifsp.backend.dto.response.view.ArtistResponseDTO;
 import br.com.ifsp.backend.dto.response.create.CreateArtistResponseDTO;
@@ -26,17 +27,16 @@ public class ArtistController {
         this.artistService = artistService;
     }
 
-    @Operation(description = "Cria artistas")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Artista criado com sucesso."),
-            @ApiResponse(responseCode = "400", description = "Informações enviadas inválidas ou faltantes.")
-    })
-    @PostMapping
-    public ResponseEntity<CreateArtistResponseDTO> create(@RequestBody @Valid CreateArtistRequestDTO data) {
-        Artist artist = artistService.insertArtist(data);
-        var response = new CreateArtistResponseDTO(artist.getId(), artist.getName());
+    @PostMapping("/person")
+    public ResponseEntity<ArtistResponseDTO> createPerson(@RequestBody @Valid CreatePersonRequestDTO data) {
+        Artist artist = artistService.createPerson(data);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ArtistResponseDTO(artist));
+    }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    @PostMapping("/group") // POST /artists/group
+    public ResponseEntity<ArtistResponseDTO> createGroup(@RequestBody @Valid CreateGroupRequestDTO data) {
+        Artist artist = artistService.createGroup(data);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ArtistResponseDTO(artist));
     }
 
     @Operation(description = "Lista todos os artistas.")
@@ -64,17 +64,17 @@ public class ArtistController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(description = "Atualizar dados de um artista")
-    @PatchMapping("/{id}")
-    public ResponseEntity<ArtistResponseDTO> update(
-            @PathVariable
-            Long id,
-            @RequestBody @Valid
-            PatchArtistRequestDTO data
-    ) {
-        Artist updatedArtist = artistService.update(id, data);
-        return ResponseEntity.ok(new ArtistResponseDTO(updatedArtist));
-    }
+//    @Operation(description = "Atualizar dados de um artista")
+//    @PatchMapping("/{id}")
+//    public ResponseEntity<ArtistResponseDTO> update(
+//            @PathVariable
+//            Long id,
+//            @RequestBody @Valid
+//            PatchArtistRequestDTO data
+//    ) {
+//        Artist updatedArtist = artistService.update(id, data);
+//        return ResponseEntity.ok(new ArtistResponseDTO(updatedArtist));
+//    }
 
     @Operation(description = "Excluir um artista (apenas se não tiver obras)")
     @ApiResponses(value = {

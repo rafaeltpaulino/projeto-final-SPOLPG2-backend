@@ -5,14 +5,16 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "artists")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "artist_type", discriminatorType = DiscriminatorType.STRING)
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Artist {
+public abstract class Artist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,17 +26,12 @@ public class Artist {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @JoinColumn(name = "image_url")
     private String imageUrl;
-
-    @JoinColumn(name = "start_date")
-    @Column(nullable = false)
-    private LocalDate startDate;
-
-    @JoinColumn(name = "end_date")
-    private LocalDate endDate;
 
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
+
+    @ManyToMany(mappedBy = "artists")
+    private Set<Master> discography = new HashSet<>();
 }

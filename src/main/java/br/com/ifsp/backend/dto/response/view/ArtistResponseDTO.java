@@ -9,8 +9,6 @@ public record ArtistResponseDTO(
         String name,
         String description,
         String imageUrl,
-        LocalDate startDate,
-        LocalDate endDate,
         String countryName
 ) {
 
@@ -20,8 +18,6 @@ public record ArtistResponseDTO(
                 artist.getName(),
                 artist.getDescription(),
                 artist.getImageUrl(),
-                artist.getStartDate(),
-                artist.getEndDate(),
                 artist.getCountry().getName()
         );
     }

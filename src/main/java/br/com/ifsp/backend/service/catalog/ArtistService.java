@@ -1,9 +1,12 @@
 package br.com.ifsp.backend.service.catalog;
 
 import br.com.ifsp.backend.dto.request.create.CreateArtistRequestDTO;
+import br.com.ifsp.backend.dto.request.create.CreateGroupRequestDTO;
+import br.com.ifsp.backend.dto.request.create.CreatePersonRequestDTO;
+import br.com.ifsp.backend.dto.request.create.MemberBindingDTO;
 import br.com.ifsp.backend.dto.request.patch.PatchArtistRequestDTO;
 import br.com.ifsp.backend.exceptions.ResourceNotFoundException;
-import br.com.ifsp.backend.model.catalog.Artist;
+import br.com.ifsp.backend.model.catalog.*;
 import br.com.ifsp.backend.model.Country;
 import br.com.ifsp.backend.repository.catalog.ArtistRepository;
 import br.com.ifsp.backend.repository.CountryRepository;
@@ -28,22 +31,83 @@ public class ArtistService {
         this.countryService = countryService;
     }
 
-    public Artist insertArtist(CreateArtistRequestDTO data) {
-        Country country = countryRepository.findById(data.countryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Nenhum país encontrado com o ID: " + data.countryId()));
+    public Artist createPerson(CreatePersonRequestDTO data) {
+        PersonArtist person = new PersonArtist();
 
-        Artist newArtist = new Artist();
+        // 1. Dados Específicos
+        person.setBirthDate(data.birthDate());
+        person.setDeathDate(data.deathDate());
 
-        newArtist.setName(data.name());
-        newArtist.setDescription(data.description());
-        newArtist.setImageUrl(data.imageUrl());
-        newArtist.setStartDate(data.startDate());
-        newArtist.setEndDate(data.endDate());
-        newArtist.setCountry(country);
+        // 2. Dados Comuns (Passando valores individuais)
+        // Nota: Se o DTO não tem imageUrl, passe null ou adicione ao DTO
+        fillCommonData(person, data.name(), data.description(), data.imageUrl(), data.countryId());
 
-        artistRepository.save(newArtist);
+        return artistRepository.save(person);
+    }
 
-        return newArtist;
+    @Transactional
+    public Artist createGroup(CreateGroupRequestDTO data) {
+        GroupArtist group = new GroupArtist();
+
+        // 1. Dados Específicos
+        group.setFormationDate(data.formationDate());
+
+        // 2. Dados Comuns
+        fillCommonData(group, data.name(), data.description(), null, data.countryId());
+
+        // 3. Salva a banda primeiro (para gerar o ID e poder vincular membros)
+        group = artistRepository.save(group);
+
+        // 4. Lógica de Membros (Somente existentes)
+        if (data.members() != null && !data.members().isEmpty()) {
+
+            for (MemberBindingDTO memberDto : data.members()) {
+
+                // PASSO 1: Busca no banco (Obrigatório existir)
+                Artist foundArtist = findById(memberDto.personArtistId());
+
+                // PASSO 2: Validação de Tipo (Regra de Ouro)
+                // Usamos Pattern Matching do Java 16+ ("instanceof PersonArtist member")
+                // Isso checa o tipo e já faz o cast para a variável 'member'
+                if (!(foundArtist instanceof PersonArtist member)) {
+                    throw new IllegalArgumentException("O ID " + memberDto.personArtistId() + " pertence a um Grupo. Apenas artistas do tipo PESSOA podem ser membros.");
+                }
+
+                // PASSO 3: Cria o Vínculo
+                GroupMember link = new GroupMember();
+
+                link.setGroup(group);
+                link.setMember(member); // Aqui passamos o objeto PersonArtist validado
+                link.setRole(memberDto.role());
+                link.setJoinDate(memberDto.joinDate());
+                link.setActive(memberDto.active());
+
+                // Configura Chave Composta
+                GroupMemberId linkId = new GroupMemberId();
+                linkId.setGroupId(group.getId());
+                linkId.setMemberId(member.getId());
+                link.setId(linkId);
+
+                // Adiciona na lista para o Cascade salvar
+                group.getMembers().add(link);
+            }
+
+            // Salva a banda com os novos membros vinculados
+            group = artistRepository.save(group);
+        }
+
+        return group;
+    }
+
+    private void fillCommonData(Artist artist, String name, String description, String imageUrl, Long countryId) {
+        artist.setName(name);
+        artist.setDescription(description);
+        artist.setImageUrl(imageUrl);
+
+        if (countryId != null) {
+            Country country = countryService.findById(countryId);
+            artist.setCountry(country);
+        }
     }
 
     public List<Artist> listAll() {
@@ -59,23 +123,23 @@ public class ArtistService {
         return artistRepository.findAllById(artistsId);
     }
 
-    @Transactional
-    public Artist update(Long id, PatchArtistRequestDTO data) {
-        Artist artist = findById(id);
-
-        if (data.name() != null) artist.setName(data.name());
-        if (data.description() != null) artist.setDescription(data.description());
-        if (data.imageUrl() != null) artist.setImageUrl(data.imageUrl());
-        if (data.startDate() != null) artist.setStartDate(data.startDate());
-        if (data.endDate() != null) artist.setEndDate(data.endDate());
-        if (data.countryId() != null) {
-            Country country = countryService.findById(data.countryId());
-            artist.setCountry(country);
-        }
-        artistRepository.save(artist);
-
-        return artist;
-    }
+//    @Transactional
+//    public Artist update(Long id, PatchArtistRequestDTO data) {
+//        Artist artist = findById(id);
+//
+//        if (data.name() != null) artist.setName(data.name());
+//        if (data.description() != null) artist.setDescription(data.description());
+//        if (data.imageUrl() != null) artist.setImageUrl(data.imageUrl());
+//        if (data.startDate() != null) artist.setStartDate(data.startDate());
+//        if (data.endDate() != null) artist.setEndDate(data.endDate());
+//        if (data.countryId() != null) {
+//            Country country = countryService.findById(data.countryId());
+//            artist.setCountry(country);
+//        }
+//        artistRepository.save(artist);
+//
+//        return artist;
+//    }
 
     @Transactional
     public void delete(Long id) {
