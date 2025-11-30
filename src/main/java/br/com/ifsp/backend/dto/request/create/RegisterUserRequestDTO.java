@@ -13,6 +13,10 @@ public record RegisterUserRequestDTO(
 
         @NotBlank(message = "A senha é obrigatória")
         @Size(min = 5, max = 30, message = "A senha deve ter entre 5 e 30 caracteres")
-        String password
+        String password,
+
+        String firstName,
+
+        String lastName
 ) {
 }
