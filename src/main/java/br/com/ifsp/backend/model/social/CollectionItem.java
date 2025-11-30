@@ -25,11 +25,11 @@ private Long id;
 private LocalDate acquiredDate;
 
 @Enumerated(EnumType.STRING)
-@Column(name = "media_condition")
+@Column(name = "media_condition", length = 30)
 private ConditionEnum mediaCondition;
 
 @Enumerated(EnumType.STRING)
-@Column(name = "sleeve_condition")
+@Column(name = "sleeve_condition", length = 30)
 private ConditionEnum sleeveCondition;
 
 @Column(name = "private_notes", columnDefinition = "TEXT")

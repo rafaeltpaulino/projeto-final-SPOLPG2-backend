@@ -1,1 +1,0 @@
-ALTER TABLE user_roles ALTER COLUMN role DROP DEFAULT;

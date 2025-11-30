@@ -24,14 +24,16 @@ public class Release {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 200)
     private String title;
 
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
+    @Column(length = 100)
     private String format;
 
+    @Column(length = 100)
     private String barcode;
 
     @Column(name = "is_main")

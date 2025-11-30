@@ -26,11 +26,15 @@ public class GroupMember {
     @JoinColumn(name = "member_id")
     private PersonArtist member;
 
+    @Column(length = 100)
     private String role;
 
+    @Column(name = "join_date")
     private LocalDate joinDate;
 
+    @Column(name = "leave_date")
     private LocalDate leaveDate;
 
+    @Column(name = "is_active")
     private boolean active;
 }

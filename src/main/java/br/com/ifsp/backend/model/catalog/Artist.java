@@ -20,12 +20,13 @@ public abstract class Artist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 150)
     private String name;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "image_url", length = 255)
     private String imageUrl;
 
     @ManyToOne

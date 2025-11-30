@@ -24,13 +24,13 @@ public class Master {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 200)
     private String title;
 
     @Column(nullable = false, name = "release_year")
     private Integer releaseYear;
 
-    @Column(name = "cover_image_url")
+    @Column(name = "cover_image_url", length = 500)
     private String coverImageUrl;
 
     @Column(name = "average_rating")

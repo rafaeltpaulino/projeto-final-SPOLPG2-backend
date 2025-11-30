@@ -26,9 +26,9 @@ public class ReleaseLabel {
     @JoinColumn(name = "label_id")
     private Label label;
 
-    @Column(name = "catalog_number")
+    @Column(name = "catalog_number", length = 100)
     private String catalogNumber;
 
-    @Column(name = "entity_role")
+    @Column(name = "entity_role", length = 50)
     private String role;
 }
