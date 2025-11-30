@@ -1,1 +1,0 @@
-ALTER TABLE artists ALTER COLUMN start_date DROP DEFAULT;

@@ -1,4 +1,5 @@
-ALTER TABLE artists ADD COLUMN artist_type VARCHAR(20) DEFAULT 'GROUP';
+ALTER TABLE artists 
+ADD COLUMN artist_type VARCHAR(20) DEFAULT 'GROUP';
 
 CREATE TABLE group_members (
                                group_id BIGINT NOT NULL,
