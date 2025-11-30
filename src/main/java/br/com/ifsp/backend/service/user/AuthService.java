@@ -27,6 +27,6 @@ public class AuthService {
         User user = (User) authentication.getPrincipal();
         String token = tokenConfig.generateJWT(user);
 
-        return new UserLoginResponseDTO(token, user.getId());
+        return new UserLoginResponseDTO(token, user.getId(), user.getUsername());
     }
 }
