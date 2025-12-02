@@ -9,7 +9,8 @@ public record ReviewResponseDTO(
         String username,
         Integer rating,
         String comment,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        String masterCoverUrl
 ) {
     public ReviewResponseDTO(Review review) {
         this(
@@ -17,7 +18,8 @@ public record ReviewResponseDTO(
                 review.getUser().getUsername(),
                 review.getRating(),
                 review.getComment(),
-                review.getCreatedAt()
+                review.getCreatedAt(),
+                review.getMaster().getCoverImageUrl()
         );
     }
 }

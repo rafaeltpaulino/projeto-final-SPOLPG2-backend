@@ -99,24 +99,6 @@ public class ReviewController {
         return ResponseEntity.ok(dtoPage);
     }
 
-    // Dica: Se quiser um atalho para "Minhas Reviews" (usuário logado)
-    @Operation(description = "Listar MINHAS avaliações")
-    @GetMapping("/me")
-    public ResponseEntity<Page<ReviewResponseDTO>> listMyReviews(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            Authentication authentication
-    ) {
-        JWTUserDTO user = (JWTUserDTO) authentication.getPrincipal(); // Ou JWTUserDTO
-        return listByUser(user.userID(), page, size); // Reutiliza a lógica acima
-    }
-
-    @Operation(description = "Excluir uma avaliação")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Avaliação excluída com sucesso"),
-            @ApiResponse(responseCode = "403", description = "Você não tem permissão para excluir esta avaliação"),
-            @ApiResponse(responseCode = "404", description = "Avaliação não encontrada")
-    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
             @PathVariable Long id,

@@ -37,11 +37,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers("swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/artists/**", "/genres/**", "/labels/**", "/masters/**", "/releases/**", "/tracks/**", "/collection/**", "/reviews/**", "/countries/**", "/users/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/artists/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/artists/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/collection/**", "/reviews").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/artists/**", "/genres/**", "/labels/**", "/masters***").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/artists/**", "/genres/**", "/labels/**", "/masters/**", "/releases/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/artists/**", "/genres/**", "/labels/**", "/masters/**", "/releases/**").hasRole("ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/user/**", "/reviews/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
