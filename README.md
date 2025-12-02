@@ -48,6 +48,7 @@ Trata-se de uma plataforma Full Stack para gerenciamento de coleções de discos
 * Gradle (ou use o wrapper `./gradlew` incluso)
 
 ### Passo a Passo
+### Backend
 
 1.  **Clone o repositório**
     ```bash
@@ -56,9 +57,9 @@ Trata-se de uma plataforma Full Stack para gerenciamento de coleções de discos
     ```
 
 2.  **Configuração do Banco de Dados**
-    Certifique-se de ter um banco PostgreSQL criado (ex: `vinyl_db`). Atualize o arquivo `src/main/resources/application.properties` com suas credenciais:
+    Certifique-se de ter um banco PostgreSQL criado (ex: `vcm_db`). Atualize o arquivo `src/main/resources/application.properties` com suas credenciais:
     ```properties
-    spring.datasource.url=jdbc:postgresql://localhost:5432/vinyl_db
+    spring.datasource.url=jdbc:postgresql://localhost:5432/vcm_db
     spring.datasource.username=postgres
     spring.datasource.password=sua_senha
     ```
@@ -73,6 +74,45 @@ Trata-se de uma plataforma Full Stack para gerenciamento de coleções de discos
 4.  **Acesse**
     A API estará rodando em `http://localhost:8080`.
     * Documentação Swagger: `http://localhost:8080/swagger-ui/index.html`
+
+## 💻 Frontend (Vue.js)
+
+Link do repositório do Frontend: https://github.com/rafaeltpaulino/projeto-final-SPOLPG2-frontend
+
+A interface do usuário foi construída utilizando **Vue.js 3** com **Vite**, proporcionando uma experiência rápida e reativa.
+
+### Pré-requisitos
+
+* **Node.js** (Versão 16 ou superior recomendada)
+* **NPM** (Geralmente instalado junto com o Node)
+
+### 🚀 Instalação e Execução
+
+1.  **Navegue até o diretório do frontend:**
+    ```bash
+    cd frontend
+    ```
+
+2.  **Instale as dependências do projeto:**
+    ```bash
+    npm install
+    ```
+
+3.  **Inicie o servidor de desenvolvimento:**
+    ```bash
+    npm run dev
+    ```
+
+4.  **Acesse a aplicação:**
+    Após o comando acima, o terminal exibirá a URL local. Geralmente é:
+    * 👉 **http://localhost:5173**
+
+### ⚙️ Configuração da API
+
+Por padrão, o Frontend espera que a API (Backend) esteja rodando em `http://localhost:8080`.
+
+Se precisar alterar o endereço da API (por exemplo, para rodar em outra porta ou em produção), edite a `baseURL` no arquivo:
+* `src/services/api.js`
 
 ## 🤝 Autores
 
